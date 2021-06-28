@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
+import { Context } from '../../../App';
 
 
 
@@ -17,6 +18,9 @@ function MenuNavBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  let { auth: { user } } = useContext(Context)
+
 
 
 
@@ -39,7 +43,7 @@ function MenuNavBar() {
 
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
         {/* <div className="menu-text"><span className="__cf_email__" data-cfemail="80f3e5e1eef4e8e5ede5c0e7ede1e9ecaee3efed">[email&nbsp;protected]</span></div> */}
-        Administrator
+        {user.name}
       </Button>
       <Menu
         id="simple-menu"
