@@ -17,6 +17,8 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { Rating } from '@material-ui/lab';
 import StarIcon from '@material-ui/icons/Star';
 import Teacher from './Teacher';
+import RemoveIcon from '@material-ui/icons/Remove';
+import UpdateIcon from '@material-ui/icons/Update';
 
 
 const useRowStyles = makeStyles({
@@ -28,7 +30,7 @@ const useRowStyles = makeStyles({
 });
 
 
-export default function Lecturers({ registerLecturers, status, subjectCode, subjectId, subjectName }) {
+export default function Subjects({ registerLecturers, status, subjectCode, subjectId, subjectName }) {
 
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
@@ -47,6 +49,15 @@ export default function Lecturers({ registerLecturers, status, subjectCode, subj
                 </TableCell>
                 <TableCell align="left">{subjectName}</TableCell>
 
+                <TableCell align="right">
+                    <IconButton>
+                        <UpdateIcon />
+                    </IconButton>
+                    <IconButton>
+                        <RemoveIcon style={{ color: 'red', }} />
+                    </IconButton>
+                </TableCell>
+
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -63,6 +74,7 @@ export default function Lecturers({ registerLecturers, status, subjectCode, subj
                                         <TableCell align="left">Type</TableCell>
                                         <TableCell align="left">Status</TableCell>
                                         <TableCell align="left">Rating</TableCell>
+                                        <TableCell></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -78,22 +90,3 @@ export default function Lecturers({ registerLecturers, status, subjectCode, subj
         </>
     );
 }
-
-Lecturers.propTypes = {
-    row: PropTypes.shape({
-        subjectId: PropTypes.string.isRequired,
-        subjectCode: PropTypes.string.isRequired,
-        subjectName: PropTypes.string.isRequired,
-        status: PropTypes.string.isRequired,
-        registerLecturers: PropTypes.arrayOf(
-            PropTypes.shape({
-                lecId: PropTypes.string.isRequired,
-                // lecCode: PropTypes.string.isRequired,
-                lecName: PropTypes.string.isRequired,
-                lecType: PropTypes.string.isRequired,
-                lecStatus: PropTypes.string.isRequired,
-                lecRating: PropTypes.number.isRequired,
-            }),
-        ).isRequired,
-    }).isRequired,
-};

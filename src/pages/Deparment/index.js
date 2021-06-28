@@ -1,8 +1,9 @@
-import { Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core'
+import { Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton } from '@material-ui/core'
 import { Context } from '../../App'
 import { Redirect } from 'react-router-dom'
 import React, { useContext, useState } from 'react'
-import Lecturers from './components/Lecturers'
+import Subjects from './components/Subjects'
+import AddBoxIcon from '@material-ui/icons/AddBox';
 
 const styles = {
     rowHead: { fontSize: 20, fontWeight: 'bold', color: 'white' }
@@ -76,23 +77,25 @@ function Deparment() {
     return (
         <div className='home'>
             <Container>
-                <Button variant="contained" color="primary">Thêm Phòng ban</Button>
+                {/* <Button variant="contained" color="primary">Thêm Phòng ban</Button> */}
                 <TableContainer component={Paper}>
                     <Table aria-label="collapsible table">
                         <TableHead>
-                            <TableRow style={{ backgroundColor: 'black', }}>
+                            <TableRow style={{ backgroundColor: '#3f51b5', }}>
                                 <TableCell style={styles.rowHead}>Subject:</TableCell>
                                 <TableCell style={styles.rowHead} align="left">Code</TableCell>
                                 <TableCell style={styles.rowHead} align="left">Name</TableCell>
-                                <TableCell style={styles.rowHead} align="left">Status</TableCell>
-                                <TableCell style={styles.rowHead} align="left"></TableCell>
+                                <TableCell style={styles.rowHead} align="right">
+                                    <IconButton variant="contained" color="inherit"> <AddBoxIcon /></IconButton>
+                                </TableCell>
+                                {/* <TableCell style={styles.rowHead} align="left"></TableCell> */}
                                 {/* <TableCell align="center">Priority point (1 to 5)</TableCell> */}
                                 {/* <TableCell align="right">*None*</TableCell> */}
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {list.map((row) => (
-                                <Lecturers key={row.subjectId} {...row} />
+                                <Subjects key={row.subjectId} {...row} />
                             ))}
                         </TableBody>
                     </Table>
