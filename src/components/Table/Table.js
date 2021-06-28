@@ -27,35 +27,6 @@ const useRowStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein, price) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      { date: '2020-01-05', customerId: '11091700', amount: 3 },
-      { date: '2020-01-02', customerId: 'Anonymous', amount: 1 },
-    ],
-  };
-}
-
-function createData1(name, type, status, priority, ...subjects) {
-  return {
-    name,
-    type,
-    status,
-    priority,
-    // subjects: [
-    //   { code: 'Code01', subName: 'Thiết kế dữ liệu' },
-    //   { code: 'Code02', subName: 'Kiến trúc phần mềm' },
-    // ],
-    subjects,
-  };
-}
-
 
 function createData2(subjectId, subjectCode, subjectName, status, ...registerLecturers) {
   return {
@@ -69,126 +40,6 @@ function createData2(subjectId, subjectCode, subjectName, status, ...registerLec
     // ],
     registerLecturers,
   };
-}
-
-function Row(props) {
-  const { row } = props;
-  const [open, setOpen] = React.useState(false);
-  const classes = useRowStyles();
-
-  return (
-    <React.Fragment>
-      <TableRow className={classes.root}>
-        <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {row.name}
-        </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
-        <TableCell align="right">{row.carbs}</TableCell>
-        <TableCell align="right">{row.protein}</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                History
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
-}
-
-function Row1(props) {
-  const { row } = props;
-  const [open, setOpen] = React.useState(false);
-  const classes = useRowStyles();
-
-  return (
-    <React.Fragment>
-      <TableRow className={classes.root}>
-        <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-        <TableCell component="th" scope="row">
-          {row.name}
-        </TableCell>
-        <TableCell align="center">{row.type}</TableCell>
-        <TableCell align="center">{row.status}</TableCell>
-        <TableCell align="center">{row.priority}</TableCell>
-        {/* <TableCell align="right">{row.protein}</TableCell> */}
-      </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                Subjects
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    {/* <TableCell>Date</TableCell> */}
-                    <TableCell>Code</TableCell>
-                    <TableCell align="left">Name</TableCell>
-                    {/* <TableCell align="right">Total price ($)</TableCell> */}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.subjects.map((subjectRow) => (
-                    <TableRow key={subjectRow.code}>
-                      {/* <TableCell >
-                          {subjectRow.date}
-                        </TableCell> */}
-                      <TableCell>{subjectRow.code}</TableCell>
-                      <TableCell align="left">{subjectRow.subName}</TableCell>
-                      {/* <TableCell align="right">
-                          {Math.round(subjectRow.amount * row.price * 100) / 100}
-                        </TableCell> */}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
-    </React.Fragment>
-  );
 }
 
 function Row2(props) {
@@ -207,7 +58,7 @@ function Row2(props) {
   //   4.5: 'Excellent',
   //   5: 'Excellent+',
   // };
-  const [value, setValue] = React.useState(2);
+  const [value, setValue] = React.useState(0);
   const [hover, setHover] = React.useState(-1);
   return (
     <React.Fragment>
@@ -221,7 +72,7 @@ function Row2(props) {
           {row.subjectCode}
         </TableCell>
         <TableCell align="left">{row.subjectName}</TableCell>
-        <TableCell align="left">{row.status}</TableCell>
+        {/* <TableCell align="left">{row.status}</TableCell> */}
         {/* <TableCell align="center">{row.priority}</TableCell> */}
         {/* <TableCell align="right">{row.protein}</TableCell> */}
       </TableRow>
@@ -256,10 +107,11 @@ function Row2(props) {
                       <TableCell>
                         <Rating
                           // name="hover-feedback"
-                          value={lecturer.lecRating }
+                          value={lecturer.lecRating}
                           // precision={0.5}
                           onChange={(event, newValue) => {
                             setValue(newValue);
+                            lecturer.lecRating = newValue;
                           }}
                         />
                       </TableCell>
@@ -275,39 +127,6 @@ function Row2(props) {
     </React.Fragment>
   );
 }
-
-Row.propTypes = {
-  row: PropTypes.shape({
-    calories: PropTypes.number.isRequired,
-    carbs: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    history: PropTypes.arrayOf(
-      PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    protein: PropTypes.number.isRequired,
-  }).isRequired,
-};
-
-Row1.propTypes = {
-  row: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    status: PropTypes.number.isRequired,
-    subjects: PropTypes.arrayOf(
-      PropTypes.shape({
-        code: PropTypes.string.isRequired,
-        subName: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
-  }).isRequired,
-};
 
 Row2.propTypes = {
   row: PropTypes.shape({
@@ -328,21 +147,6 @@ Row2.propTypes = {
   }).isRequired,
 };
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
-
-const rows1 = [
-  createData1('Nguyên Văn A', 'Cơ hữu', 'available', '5', { code: 'Code01', subName: 'Thiết kế dữ liệu' }, { code: 'Code02', subName: 'Kiến trúc phần mềm' }),
-  createData1('Lê Nguyễn B', 'Cơ hữu', 'available', '4', { code: 'Code01', subName: 'Thiết kế dữ liệu' }, { code: 'Code02', subName: 'Kiến trúc phần mềm' }),
-  createData1('Cao Văn C', 'Thỉnh giảng', 'available', '2', { code: 'Code01', subName: 'Thiết kế dữ liệu' }, { code: 'Code02', subName: 'Kiến trúc phần mềm' }),
-  createData1('Phạm D', 'Cơ hữu', 'available', '3', { code: 'Code01', subName: 'Thiết kế dữ liệu' }, { code: 'Code02', subName: 'Kiến trúc phần mềm' }),
-  createData1('Trương Thế E', 'Cơ hữu', 'available', '5', { code: 'Code01', subName: 'Thiết kế dữ liệu' }, { code: 'Code02', subName: 'Kiến trúc phần mềm' }),
-];
 
 const rows2 = [
   createData2('SUB01', 'Code01', 'Thiết kế dữ liệu', 'Available',
@@ -361,10 +165,10 @@ export default function CollapsibleTable() {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow style={{ backgroundColor: 'black' }}>
-            <TableCell style={{ fontSize: 20, fontWeight: 'bold' }}>Subject:</TableCell>
-            <TableCell align="left">Code</TableCell>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="left">Status</TableCell>
+            <TableCell style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>Subject:</TableCell>
+            <TableCell align="left" style={{color: 'white'}}>Code</TableCell>
+            <TableCell align="left" style={{color: 'white'}}>Name</TableCell>
+            {/* <TableCell align="left" style={{color: 'white'}}>Status</TableCell> */}
             {/* <TableCell align="center">Priority point (1 to 5)</TableCell> */}
             {/* <TableCell align="right">*None*</TableCell> */}
           </TableRow>
