@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 // import NavBar from './components/NavBar/NavBar';
 import Deparment from './pages/Deparment';
 import SignInSide from './pages/Login';
 import MainLayout from './layouts/MainLayout';
+import Profile from './pages/Profile';
 
 export let Context = React.createContext()
 
@@ -25,14 +26,14 @@ function App() {
       setAuth({
         login: true,
         user: {
-          name: 'Dang Thuyen Vuong'
+          name: 'User name'
         }
       })
 
       localStorage.setItem('auth', JSON.stringify({
         login: true,
         user: {
-          name: 'Dang Thuyen Vuong'
+          name: 'User name'
         }
       }))
     } else {
@@ -44,11 +45,17 @@ function App() {
     <Context.Provider value={{ state, setState, auth, loginHandel }}>
       <Router>
         <Switch>
+
           <Route path="/login" exact component={SignInSide} />
           <Route path="/">
-            <MainLayout>
-              <Route path="/" exact component={Deparment} />
-            </MainLayout>
+            {
+              !auth.login ? <Redirect to="/login"/> :
+
+                <MainLayout>
+                  <Route path="/" exact component={Deparment} />
+                  <Route path="/profile" exact component={Profile} />
+                </MainLayout>
+            }
           </Route>
         </Switch>
 

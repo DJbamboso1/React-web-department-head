@@ -27,3 +27,7 @@
 .sidebar-open #main {
   padding-left: 240px;
 }
+
+#root {
+  margin-top: 10%;
+}

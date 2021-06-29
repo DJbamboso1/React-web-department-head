@@ -12,7 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Context } from '../App';
+import { Context } from '../../App';
 import { Redirect } from 'react-router-dom';
 
 function Copyright() {
@@ -96,7 +96,7 @@ export default function SignInSide() {
             Sign in
           </Typography>
           {
-            error && <Typography component="h4" variant="h5">
+            error && <Typography component="h4" variant="h6" style={{color: 'red'}}>
               {error}
             </Typography>
           }

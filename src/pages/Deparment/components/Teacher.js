@@ -30,7 +30,7 @@ export default function Teacher({ lecId, lecName, lecType, lecStatus, lecRating 
             </TableCell>
             <TableCell>
                 {
-                    update && <Button variant="contained" color="primary" onClick={updateHandle}>Update</Button>
+                    update && <Button variant="contained" color="primary" onClick={updateHandle}>Cập nhật</Button>
                 }
             </TableCell>
 

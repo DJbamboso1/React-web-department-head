@@ -82,9 +82,9 @@ function Deparment() {
                     <Table aria-label="collapsible table">
                         <TableHead>
                             <TableRow style={{ backgroundColor: '#3f51b5', }}>
-                                <TableCell style={styles.rowHead}>Subject:</TableCell>
-                                <TableCell style={styles.rowHead} align="left">Code</TableCell>
-                                <TableCell style={styles.rowHead} align="left">Name</TableCell>
+                                <TableCell style={styles.rowHead}>Môn:</TableCell>
+                                <TableCell style={styles.rowHead} align="left">Mã môn</TableCell>
+                                <TableCell style={styles.rowHead} align="left">Tên môn</TableCell>
                                 <TableCell style={styles.rowHead} align="right">
                                     <IconButton variant="contained" color="inherit"> <AddBoxIcon /></IconButton>
                                 </TableCell>

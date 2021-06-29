@@ -70,10 +70,10 @@ export default function Subjects({ registerLecturers, status, subjectCode, subje
                                 <TableHead>
                                     <TableRow>
                                         {/* <TableCell>Date</TableCell> */}
-                                        <TableCell>Name</TableCell>
-                                        <TableCell align="left">Type</TableCell>
-                                        <TableCell align="left">Status</TableCell>
-                                        <TableCell align="left">Rating</TableCell>
+                                        <TableCell>Tên</TableCell>
+                                        <TableCell align="left">Loại giảng viên</TableCell>
+                                        <TableCell align="left">Trạng thái</TableCell>
+                                        <TableCell align="left">Đánh giá</TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
                                 </TableHead>
