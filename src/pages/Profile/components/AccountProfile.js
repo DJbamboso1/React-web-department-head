@@ -9,6 +9,7 @@ import {
   Divider,
   Typography
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
@@ -19,7 +20,27 @@ const user = {
   timezone: 'GTM-7'
 };
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  },
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  },
+}));
+
+
+
 const AccountProfile = (props) => (
+  
   <Card {...props}>
     <CardContent>
       <Box
@@ -31,10 +52,11 @@ const AccountProfile = (props) => (
       >
         <Avatar
           src={user.avatar}
-          sx={{
-            height: 100,
-            width: 100
-          }}
+          // sx={{
+          //   height: 100,
+          //   width: 100
+          // }}
+          style={{width: 100, height: 100}}
         />
         <Typography
           color="textPrimary"

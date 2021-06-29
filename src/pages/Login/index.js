@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
   let { auth, loginHandel } = useContext(Context)
   let [form, setForm] = useState({
-    email: '',
+    username: '',
     password: ''
   })
   let [error, setError] = useState('')
@@ -75,8 +75,8 @@ export default function SignInSide() {
   function _login(e) {
     e.preventDefault()
     let res = loginHandel(form)
-    if (res?.error) {
-      setError(res.error)
+    if (res?.errorMsg) {
+      setError(res.errorMsg)
     }
   }
 
@@ -107,13 +107,14 @@ export default function SignInSide() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              // id="username"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
-              value={form.email}
-              onChange={e => setForm({ ...form, email: e.target.value })}
+              value={form.username}
+              onChange={e => setForm({ ...form, username: e.target.value })}
             />
             <TextField
               variant="outlined"

@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core';
 import AccountProfile from './components/AccountProfile';
 import AccountProfileDetails from './components/AccountProfileDetail';
+import AccountProfileTab from './components/AccountProfileTab';
 
 const Account = () => (
   <>
@@ -38,7 +39,7 @@ const Account = () => (
             md={6}
             xs={12}
           >
-            <AccountProfileDetails />
+            <AccountProfileTab/>
           </Grid>
         </Grid>
       </Container>

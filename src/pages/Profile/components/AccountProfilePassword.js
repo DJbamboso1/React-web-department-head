@@ -50,22 +50,28 @@ const AccountProfileDetails = (props) => {
         >
             <Card>
                 <CardHeader
-                    subheader="The information can be edited"
-                    title="Profile"
+                    // subheader="The information can be edited"
+                    title="Password"
                 />
                 <Divider />
                 <CardContent>
-                    <Grid container spacing={3}>
-                        <Grid item md={6} xs={12}
+                    <Grid
+                        container
+                        spacing={3}
+                    >
+                        <Grid
+                            item
+                            md={6}
+                            xs={12}
                         >
                             <TextField
                                 fullWidth
-                                helperText="Please specify the first name"
-                                label="First name"
-                                name="firstName"
+                                // helperText="Please specify the first name"
+                                label="Password"
+                                name="Password"
                                 onChange={handleChange}
                                 required
-                                value={values.firstName}
+                                // value={values.password}
                                 variant="outlined"
                             />
                         </Grid>
@@ -76,15 +82,15 @@ const AccountProfileDetails = (props) => {
                         >
                             <TextField
                                 fullWidth
-                                label="Last name"
-                                name="lastName"
+                                label="Confirm Password"
+                                name="ConfirmPassword"
                                 onChange={handleChange}
                                 required
-                                value={values.lastName}
+                                // value={values.confirmPassword}
                                 variant="outlined"
                             />
                         </Grid>
-                        <Grid
+                        {/* <Grid
                             item
                             md={6}
                             xs={12}
@@ -98,8 +104,8 @@ const AccountProfileDetails = (props) => {
                                 value={values.email}
                                 variant="outlined"
                             />
-                        </Grid>
-                        <Grid
+                        </Grid> */}
+                        {/* <Grid
                             item
                             md={6}
                             xs={12}
@@ -113,8 +119,8 @@ const AccountProfileDetails = (props) => {
                                 value={values.phone}
                                 variant="outlined"
                             />
-                        </Grid>
-                        <Grid
+                        </Grid> */}
+                        {/* <Grid
                             item
                             md={6}
                             xs={12}
@@ -128,15 +134,15 @@ const AccountProfileDetails = (props) => {
                                 value={values.country}
                                 variant="outlined"
                             />
-                        </Grid>
-                        <Grid
+                        </Grid> */}
+                        {/* <Grid
                             item
                             md={6}
                             xs={12}
                         >
                             <TextField
                                 fullWidth
-                                label="Select State"
+                                label="Confirm password"
                                 name="state"
                                 onChange={handleChange}
                                 required
@@ -154,7 +160,7 @@ const AccountProfileDetails = (props) => {
                                     </option>
                                 ))}
                             </TextField>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </CardContent>
                 <Divider />
@@ -168,7 +174,7 @@ const AccountProfileDetails = (props) => {
                     <Button
                         color="primary"
                         variant="contained"
-                        style={{margin: 10}}
+                        style={{ margin: 10 }}
                     >
                         Save details
                     </Button>

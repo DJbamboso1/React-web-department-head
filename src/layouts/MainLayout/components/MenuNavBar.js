@@ -63,7 +63,7 @@ function MenuNavBar() {
       // style={{width: 150}}
       // className="dropdown-menu dropdown-menu-end me-lg-3"
       >
-        <MenuItem onClick={handleClose} component={Link} to='/#'>
+        <MenuItem onClick={handleClose} component={Link} to='/profile'>
           {/* <Link to='/#'>Profile</Link> */}
           Profile
         </MenuItem>
@@ -71,7 +71,7 @@ function MenuNavBar() {
           {/* <Link to='/signIn'>
             Sign out
           </Link> */}    
-          Sign out
+          Log out
         </MenuItem>
       </Menu>
       

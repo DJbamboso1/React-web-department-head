@@ -6,6 +6,8 @@ import Deparment from './pages/Deparment';
 import SignInSide from './pages/Login';
 import MainLayout from './layouts/MainLayout';
 import Profile from './pages/Profile';
+// import { response } from 'express';
+// import axios from 'axios';
 
 export let Context = React.createContext()
 
@@ -20,25 +22,66 @@ function App() {
     login: false,
     user: null
   })
+  
 
-  function loginHandel({ email, password }) {
-    if (email == 'admin@gmail.com' && password == '123456') {
+
+  async function loginHandel({ username, password }) {
+    let result = await fetch("https://fls.azurewebsites.net/api/v1/guest/login", {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ username, password }),
+    });
+    // alert (result.status);
+    // result = await result.json();
+    // history.push('/');
+    // alert(result.username)
+    if (await result.status === 400) {
+      return { error: 'Email hoặc password sai' };
+    }
+   
+    else  {
+      result = await result.json();
+      
       setAuth({
         login: true,
         user: {
-          name: 'User name'
+          id: result.id,
+          name: result.username,
+          token: result.token
         }
       })
 
       localStorage.setItem('auth', JSON.stringify({
         login: true,
         user: {
-          name: 'User name'
+          id: result.id,
+          name: result.username,
+          token: result.token
         }
       }))
-    } else {
-      return { error: 'Email hoặc password sai' }
-    }
+    } 
+
+
+    // if (username == 'abcde' && password == '123') {
+    //   setAuth({
+    //     login: true,
+    //     user: {
+    //       name: 'User name'
+    //     }
+    //   })
+
+    //   localStorage.setItem('auth', JSON.stringify({
+    //     login: true,
+    //     user: {
+    //       name: 'User name'
+    //     }
+    //   }))
+    // } else {
+    //   return { error: 'Email hoặc password sai' }
+    // }
   }
 
   return (
@@ -49,7 +92,7 @@ function App() {
           <Route path="/login" exact component={SignInSide} />
           <Route path="/">
             {
-              !auth.login ? <Redirect to="/login"/> :
+              !auth.login ? <Redirect to="/login" /> :
 
                 <MainLayout>
                   <Route path="/" exact component={Deparment} />
