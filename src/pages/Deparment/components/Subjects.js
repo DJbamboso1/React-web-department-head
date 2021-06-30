@@ -64,7 +64,7 @@ export default function Subjects({ registerLecturers, status, subjectCode, subje
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
                             <Typography variant="h6" style={{ fontWeight: 'bold' }} gutterBottom component="div">
-                                Lecturers:
+                                Giảng viên:
                             </Typography>
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
