@@ -16,7 +16,7 @@ function MenuNavBar() {
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    // setAnchorEl(null);
     // localStorage.setItem('auth', JSON.stringify({
     //   login: false,
     //   user: null
@@ -25,16 +25,16 @@ function MenuNavBar() {
     
   };
 
-  let { auth: { user } } = useContext(Context);
+  let { auth: { user }, logoutHandle } = useContext(Context);
 
   const handleLogout = () => {
-    setAnchorEl(null);
+    // setAnchorEl(null);
+    logoutHandle();
     // localStorage.setItem('auth', JSON.stringify({
     //     login: false,
     //     user: null
     //   }));
-    localStorage.removeItem('auth');
-    localStorage.removeItem('sidebar');
+    
   };
 
   // let [auth, setAuth] = useState(localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')) : {
@@ -48,8 +48,6 @@ function MenuNavBar() {
 
   return (
     <>
-     
-
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
         
         {user.name}

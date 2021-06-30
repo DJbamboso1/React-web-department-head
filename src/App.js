@@ -22,10 +22,10 @@ function App() {
     login: false,
     user: null
   })
-  
 
+  const [rid, setRId] = useState(0);
 
-  async function loginHandel({ username, password }) {
+  async function loginHandle({ username, password }) {
     let result = await fetch("https://fls.azurewebsites.net/api/v1/guest/login", {
       method: 'POST',
       headers: {
@@ -34,71 +34,84 @@ function App() {
       },
       body: JSON.stringify({ username, password }),
     });
-    // alert (result.status);
-    // result = await result.json();
-    // history.push('/');
-    // alert(result.username)
-    if (await result.status === 400) {
+    // alert(result.status);  
+    // console.log(result);
+    if (result.status === 400) {
+      
       return { error: 'Email hoặc password sai' };
     }
-   
-    else  {
-      result = await result.json();
-      
+
+    else {
+      let result1 = await result.json();
+
+      console.log("result: " + result1.id);
+
+      let user = await fetch('https://fls.azurewebsites.net/api/v1/user/' + result1.id, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        // body: JSON.stringify(result.id),
+      });
+      user = await user.json();
+
+      console.log("user: " + user.roleId)
+
+      let role = await fetch('https://fls.azurewebsites.net/api/v1/role/' + user.roleId, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        // body: JSON.stringify(user.user),
+      });
+      role = await role.json();
+
+      console.log(role);
+
+      setRId(role.id);
+
       setAuth({
         login: true,
         user: {
-          id: result.id,
-          name: result.username,
-          token: result.token
+          id: result1.id,
+          name: user.fullname,
+          token: result1.token
         }
       })
 
       localStorage.setItem('auth', JSON.stringify({
         login: true,
         user: {
-          id: result.id,
-          name: result.username,
-          token: result.token
+          id: result1.id,
+          name: user.fullname,
+          token: result1.token
         }
       }))
-    } 
+    }
+  }
 
+  function logoutHandle() {
+    setAuth({
+      login: false,
+      user: null
+    });
+    localStorage.removeItem('auth');
+    localStorage.removeItem('sidebar');
 
-    // if (username == 'abcde' && password == '123') {
-    //   setAuth({
-    //     login: true,
-    //     user: {
-    //       name: 'User name'
-    //     }
-    //   })
-
-    //   localStorage.setItem('auth', JSON.stringify({
-    //     login: true,
-    //     user: {
-    //       name: 'User name'
-    //     }
-    //   }))
-    // } else {
-    //   return { error: 'Email hoặc password sai' }
-    // }
   }
 
   return (
-    <Context.Provider value={{ state, setState, auth, loginHandel }}>
+    <Context.Provider value={{ state, setState, auth, loginHandle, logoutHandle }}>
       <Router>
-        <Switch>
-
+      <Switch>
           <Route path="/login" exact component={SignInSide} />
           <Route path="/">
-            {
-              !auth.login ? <Redirect to="/login" /> :
-
-                <MainLayout>
-                  <Route path="/" exact component={Deparment} />
-                  <Route path="/profile" exact component={Profile} />
-                </MainLayout>
-            }
+            <MainLayout>
+              <Route path="/" exact component={Deparment} />
+              <Route path='/profile' exact component={Profile} />
+            </MainLayout>
           </Route>
         </Switch>
 

@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignInSide() {
-  let { auth, loginHandel } = useContext(Context)
+  let { auth, loginHandle } = useContext(Context)
   let [form, setForm] = useState({
     username: '',
     password: ''
@@ -72,11 +72,11 @@ export default function SignInSide() {
   const classes = useStyles();
 
 
-  function _login(e) {
+  async function _login(e) {
     e.preventDefault()
-    let res = loginHandel(form)
-    if (res?.errorMsg) {
-      setError(res.errorMsg)
+    let res = await loginHandle(form)
+    if (res?.error) {
+      setError(res.error)
     }
   }
 
