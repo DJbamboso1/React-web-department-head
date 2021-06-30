@@ -16,35 +16,16 @@ function MenuNavBar() {
   };
 
   const handleClose = () => {
-    // setAnchorEl(null);
-    // localStorage.setItem('auth', JSON.stringify({
-    //   login: false,
-    //   user: null
-    // })),
-    // localStorage.setItem('sidebar', !sidebar),
-    
+    setAnchorEl(null);
   };
 
   let { auth: { user }, logoutHandle } = useContext(Context);
 
   const handleLogout = () => {
-    // setAnchorEl(null);
+    setAnchorEl(null);
     logoutHandle();
-    // localStorage.setItem('auth', JSON.stringify({
-    //     login: false,
-    //     user: null
-    //   }));
     
   };
-
-  // let [auth, setAuth] = useState(localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')) : {
-  //   login: false,
-  //   user: null
-  // })
-
-  // if(!user) {
-  //   return <Redirect to="/login"/>
-  // }
 
   return (
     <>
@@ -62,13 +43,9 @@ function MenuNavBar() {
       // className="dropdown-menu dropdown-menu-end me-lg-3"
       >
         <MenuItem onClick={handleClose} component={Link} to='/profile'>
-          {/* <Link to='/#'>Profile</Link> */}
           Profile
         </MenuItem>
         <MenuItem onClick={handleLogout} component={Link} to='/login' >
-          {/* <Link to='/signIn'>
-            Sign out
-          </Link> */}    
           Log out
         </MenuItem>
       </Menu>

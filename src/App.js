@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 // import NavBar from './components/NavBar/NavBar';
 import Deparment from './pages/Deparment';
+// import Deparment1 from './pages/Deparment-1';
 import SignInSide from './pages/Login';
 import MainLayout from './layouts/MainLayout';
 import Profile from './pages/Profile';
