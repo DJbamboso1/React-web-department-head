@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -12,6 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import Subjects from './components/Subjects';
 import EnhancedTableHead from "./components/EnhancedTableHead";
 import CardContainer from "./components/CardContainer";
+import departmentService from "../../service/department";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,122 +38,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-let data = [
-    {
-        registerLecturers: [
-            {
-                lecId: "LEC01",
-                lecName: "Nguyễn Văn A",
-                lecRating: 2,
-                lecStatus: "available",
-                lecType: "Cơ hữu",
-            },
-            {
-                lecId: "LEC03",
-                lecName: "Nguyễn Văn C",
-                lecRating: 4,
-                lecStatus: "available",
-                lecType: "Thỉnh giảng",
-            },
-            {
-                lecId: "LEC04",
-                lecName: "Nguyễn Văn D",
-                lecRating: 5,
-                lecStatus: "available",
-                lecType: "Cơ hữu",
-            }
-        ],
-        status: "Available",
-        subjectCode: "Code02",
-        subjectId: "SUB02",
-        subjectName: "Kiến trúc phần mềm",
-    },
-    {
-        registerLecturers: [
-            {
-                lecId: "LEC01",
-                lecName: "Nguyễn Văn A",
-                lecRating: 2,
-                lecStatus: "available",
-                lecType: "Cơ hữu",
-            },
-            {
-                lecId: "LEC02",
-                lecName: "Nguyễn Văn B",
-                lecRating: 3,
-                lecStatus: "available",
-                lecType: "Cơ hữu"
-            },
-        ],
-        status: "Available",
-        subjectCode: "Code01",
-        subjectId: "SUB01",
-        subjectName: "Thiết kế dữ liệu",
-    },
-    {
-        status: "Available",
-        subjectCode: "Code03",
-        subjectId: "SUB03",
-        subjectName: "Môn 3",
-        registerLecturers: [],
-    },
-    {
-        status: "Available",
-        subjectCode: "Code04",
-        subjectId: "SUB04",
-        registerLecturers: [],
-        subjectName: "Môn 4"
-    },
-    {
-        registerLecturers: [],
-        status: "Available",
-        subjectCode: "Code5",
-        subjectId: "SUB05",
-        subjectName: "Môn 5"
-    },
-    {
-        registerLecturers: [],
-        status: "Available",
-        subjectCode: "Code06",
-        subjectId: "SUB06",
-        subjectName: "Môn 6"
-    },
-    {
-        registerLecturers: [],
-        status: "Available",
-        subjectCode: "Code07",
-        subjectId: "SUB07",
-        subjectName: "Môn 7"
-    },
-    {
-        registerLecturers: [],
-        status: "Available",
-        subjectCode: "Code08",
-        subjectId: "SUB08",
-        subjectName: "Môn 8"
-    },
-    {
-        registerLecturers: [],
-        status: "Available",
-        subjectCode: "Code09",
-        subjectId: "SUB09",
-        subjectName: "Môn 9"
-    },
-    {
-        registerLecturers: [],
-        status: "Available",
-        subjectCode: "Code10",
-        subjectId: "SUB010",
-        subjectName: "Môn 10"
-    },
-    {
-        registerLecturers: [],
-        status: "Available",
-        subjectCode: "Code11",
-        subjectId: "SUB11",
-        subjectName: "Môn 11"
-    },
-]
 
 function EnhancedTable() {
     const classes = useStyles();
@@ -161,7 +46,12 @@ function EnhancedTable() {
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    let [list, setList] = useState(data);
+    let [list, setList] = useState([]);
+
+    useEffect(async () => {
+        let data = await departmentService.get()
+        setList(data)
+    },[])
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -210,7 +100,7 @@ function EnhancedTable() {
 
 
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, list.length - page * rowsPerPage);
 
     return (
         <div className={classes.root}>
@@ -231,7 +121,7 @@ function EnhancedTable() {
                             orderBy={orderBy}
                             // onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
-                            rowCount={data.length}
+                            rowCount={list.length}
                         />
                         <TableBody>
                             {stableSort(list, getComparator(order, orderBy))
@@ -250,7 +140,7 @@ function EnhancedTable() {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={data.length}
+                    count={list.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}

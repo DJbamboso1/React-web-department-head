@@ -1,0 +1,21 @@
+- Update phòng ban
+- Lấy thông tin của phòng ban: 
+	Môn học trong phòng ban
+		Giảng viên
+
+
+
+
+- Lấy tất cả Giảng viên
+- Update Giảng viên
+- Delete Giảng viên
+- Tạo Giảng viên
+
+
+
+
+- Lấy tất cả Môn học
+- Update Môn học
+- Delete Môn học
+- Tạo Môn học
+

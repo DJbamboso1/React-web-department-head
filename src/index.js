@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 import '../src/assets/css/app.min.css';
-import '../src/assets/css/vendor.min.css';
+// import '../src/assets/css/vendor.min.css';
 // import '../src/assets/js/app.min.js';
 // import '../src/assets/js/vendor.min.js';
 

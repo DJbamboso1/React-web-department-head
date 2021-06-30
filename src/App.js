@@ -7,6 +7,9 @@ import Deparment from './pages/Deparment';
 import SignInSide from './pages/Login';
 import MainLayout from './layouts/MainLayout';
 import Profile from './pages/Profile';
+import authService from './service/auth';
+import Teacher from './pages/Teacher';
+import Subject from './pages/Subject';
 // import { response } from 'express';
 // import axios from 'axios';
 
@@ -27,47 +30,20 @@ function App() {
   const [rid, setRId] = useState(0);
 
   async function loginHandle({ username, password }) {
-    let result = await fetch("https://fls.azurewebsites.net/api/v1/guest/login", {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify({ username, password }),
-    });
+    let result = await authService.login({ username, password });
     // alert(result.status);  
     // console.log(result);
-    if (result.status === 400) {
-      
-      return { error: 'Email hoặc password sai' };
+
+    if (result.error) {
+      return result;
     }
 
     else {
-      let result1 = await result.json();
 
-      console.log("result: " + result1.id);
+      let user = await authService.info(result.id);
 
-      let user = await fetch('https://fls.azurewebsites.net/api/v1/user/' + result1.id, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        // body: JSON.stringify(result.id),
-      });
-      user = await user.json();
+      let role = await authService.role(user.roleId);
 
-      console.log("user: " + user.roleId)
-
-      let role = await fetch('https://fls.azurewebsites.net/api/v1/role/' + user.roleId, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        // body: JSON.stringify(user.user),
-      });
-      role = await role.json();
 
       console.log(role);
 
@@ -76,18 +52,19 @@ function App() {
       setAuth({
         login: true,
         user: {
-          id: result1.id,
+          id: result.id,
           name: user.fullname,
-          token: result1.token
+          token: result.token
         }
       })
 
       localStorage.setItem('auth', JSON.stringify({
+        token: result.token,
         login: true,
         user: {
-          id: result1.id,
+          id: result.id,
           name: user.fullname,
-          token: result1.token
+          token: result.token
         }
       }))
     }
@@ -106,12 +83,14 @@ function App() {
   return (
     <Context.Provider value={{ state, setState, auth, loginHandle, logoutHandle }}>
       <Router>
-      <Switch>
+        <Switch>
           <Route path="/login" exact component={SignInSide} />
           <Route path="/">
             <MainLayout>
               <Route path="/" exact component={Deparment} />
               <Route path='/profile' exact component={Profile} />
+              <Route path='/teacher' exact component={Teacher} />
+              <Route path='/subject' exact component={Subject} />
             </MainLayout>
           </Route>
         </Switch>
