@@ -49,14 +49,7 @@ export default function Subjects({ registerLecturers, status, subjectCode, subje
                 </TableCell>
                 <TableCell align="left">{subjectName}</TableCell>
 
-                <TableCell align="right">
-                    <IconButton>
-                        <UpdateIcon />
-                    </IconButton>
-                    <IconButton>
-                        <RemoveIcon style={{ color: 'red', }} />
-                    </IconButton>
-                </TableCell>
+                
 
             </TableRow>
             <TableRow>

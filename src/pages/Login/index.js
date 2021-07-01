@@ -82,6 +82,7 @@ export default function SignInSide() {
 
 
   if (auth.login) return <Redirect to="/" />
+  
 
   return (
     <Grid container component="main" className={classes.root}>

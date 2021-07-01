@@ -27,7 +27,7 @@ function App() {
     user: null
   })
 
-  const [rid, setRId] = useState(0);
+
 
   async function loginHandle({ username, password }) {
     let result = await authService.login({ username, password });
@@ -47,7 +47,6 @@ function App() {
 
       console.log(role);
 
-      setRId(role.id);
 
       setAuth({
         login: true,
@@ -88,7 +87,7 @@ function App() {
           <Route path="/">
             <MainLayout>
               <Route path="/" exact component={Deparment} />
-              <Route path='/profile' exact component={Profile} />
+              {/* <Route path='/profile' exact component={Profile} /> */}
               <Route path='/teacher' exact component={Teacher} />
               <Route path='/subject' exact component={Subject} />
             </MainLayout>

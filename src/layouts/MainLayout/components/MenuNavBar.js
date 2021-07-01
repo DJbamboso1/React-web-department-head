@@ -24,14 +24,15 @@ function MenuNavBar() {
   const handleLogout = () => {
     setAnchorEl(null);
     logoutHandle();
-    
+
   };
 
   return (
     <>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        
-        {user.name}
+        {
+          user === null ? 'empty' : user.name
+        }
       </Button>
       <Menu
         id="simple-menu"
@@ -49,8 +50,8 @@ function MenuNavBar() {
           Log out
         </MenuItem>
       </Menu>
-      
-          
+
+
     </>
   )
 }

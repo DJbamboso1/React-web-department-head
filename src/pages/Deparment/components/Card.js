@@ -35,10 +35,10 @@ const useStyles = makeStyles((theme) => ({
 function CardComponent({ title, total, index }) {
     const classes = useStyles();
     return (
-        <Card style={{margin: '15px 0px'}}>
+        <Card style={{margin: '15px 10px'}}>
             <CardContent>
                 <Grid style={{display: 'flex', justifyContent: 'space-around'}}>
-                    <Grid item>
+                    <Grid item >
                         <Typography
                             color="textSecondary"
                             gutterBottom

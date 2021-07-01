@@ -89,16 +89,6 @@ function EnhancedTableHead(props) {
     );
 }
 
-EnhancedTableHead.propTypes = {
-    classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-};
-
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
         paddingLeft: theme.spacing(2),
@@ -178,8 +168,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
-
 export default function TableComponent({ header, data, title }) {
 
     const classes = useStyles();
@@ -188,19 +176,8 @@ export default function TableComponent({ header, data, title }) {
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-
-    //search
     const [searched, setSearched] = useState("");
     const [filterData, setFilterData] = useState(data);
-
-    useEffect(() => {
-        setFilterData(data);
-    }, [data])
-    
-    //////////////////////////////////////////
-
-    console.log('data: ' + data);
-    console.log('filterData: ' + filterData);
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
@@ -209,7 +186,7 @@ export default function TableComponent({ header, data, title }) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = filterData.map((n) => n.name);
+            const newSelecteds = data.map((n) => n.name);
             setSelected(newSelecteds);
             return;
         }
@@ -245,31 +222,28 @@ export default function TableComponent({ header, data, title }) {
         setPage(0);
     };
 
-    //search
+
     const requestSearch = (searchedVal) => {
         const filteredRows = data.filter((row) => {
             if (title === 'Môn học') {
                 return row.subjectName.toLowerCase().includes(searchedVal.toLowerCase());
-            } else if (title === 'Giảng viên') {
+            } else if (title === 'giảng viên') {
                 return row.name.toLowerCase().includes(searchedVal.toLowerCase());
             }
-            return null;
+
         });
-        console.log("filteredRow: " + filteredRows)
-        setFilterData(filteredRows);
+        data = setFilterData(filteredRows);
+
     };
 
     const cancelSearch = () => {
         setSearched("");
         requestSearch(searched);
     };
-//////////////////////////////////////////////////////
-
 
     console.log(filterData);
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
-
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, filterData.length - page * rowsPerPage);
 
     return (
@@ -278,20 +252,12 @@ export default function TableComponent({ header, data, title }) {
 
                 <EnhancedTableToolbar title={title} numSelected={selected.length} />
                 <TableContainer>
-                    {/* Search */}
-                    <SearchBar
-                        value={searched}
-                        onChange={(searchVal) => requestSearch(searchVal)}
-                        onCancelSearch={() => cancelSearch()}
-                    />
-                    {/* //////////////////////////////////////// */}
                     <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
 
                         aria-label="enhanced table"
                     >
-
                         <EnhancedTableHead
                             classes={classes}
                             numSelected={selected.length}
@@ -299,28 +265,29 @@ export default function TableComponent({ header, data, title }) {
                             orderBy={orderBy}
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
-                            rowCount={filterData.length}
-                            // rowCount={data.length}
+                            rowCount={data.length}
                             header={header}
                         />
-
+                        {/* <SearchBar
+                            value={searched}
+                            onChange={(searchVal) => requestSearch(searchVal)}
+                            onCancelSearch={() => cancelSearch()}
+                        /> */}
                         <TableBody>
-                            {stableSort(filterData, getComparator(order, orderBy))
+                            {stableSort(data, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
-                                
-                                    const isItemSelected = isSelected(row.id);
-                                    console.log('row.name: ' + row.id)
+                                    const isItemSelected = isSelected(row.name);
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.id)}
+                                            onClick={(event) => handleClick(event, row.name)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
-                                            key={row.id}
+                                            key={row.name}
                                             selected={isItemSelected}
                                         >
                                             <TableCell padding="checkbox">
@@ -363,8 +330,7 @@ export default function TableComponent({ header, data, title }) {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    // count={data.length}
-                    count={filterData.length}
+                    count={data.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}

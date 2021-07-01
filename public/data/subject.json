@@ -1,3 +1,71 @@
 [
-    
+    {
+        "status": "Available",
+        "subjectCode": "Code01",
+        "id": "SUB01",
+        "subjectName": "Thiết kế dữ liệu"
+      },
+      {
+        "status": "Available",
+        "subjectCode": "Code02",
+        "id": "SUB02",
+        "subjectName": "Kiến trúc phần mềm"
+     },
+      {
+         "status": "Available",
+         "subjectCode": "Code03",
+         "id": "SUB03",
+         "subjectName": "Môn 3"
+      },
+      {
+         "status": "Available",
+         "subjectCode": "Code04",
+         "id": "SUB04",
+         "subjectName": "Môn 4"
+      },
+      {
+         
+         "status": "Available",
+         "subjectCode": "Code5",
+         "id": "SUB05",
+         "subjectName": "Môn 5"
+      },
+      {
+         
+         "status": "Available",
+         "subjectCode": "Code06",
+         "id": "SUB06",
+         "subjectName": "Môn 6"
+      },
+      {
+         
+         "status": "Available",
+         "subjectCode": "Code07",
+         "id": "SUB07",
+         "subjectName": "Môn 7"
+      },
+      {
+         "status": "Available",
+         "subjectCode": "Code08",
+         "id": "SUB08",
+         "subjectName": "Môn 8"
+      },
+      { 
+         "status": "Available",
+         "subjectCode": "Code09",
+         "id": "SUB09",
+         "subjectName": "Môn 9"
+      },
+      {      
+         "status": "Available",
+         "subjectCode": "Code10",
+         "id": "SUB010",
+         "subjectName": "Môn 10"
+      },
+      {     
+         "status": "Available",
+         "subjectCode": "Code11",
+         "id": "SUB11",
+         "subjectName": "Môn 11"
+      }
 ]

@@ -1,34 +1,10 @@
 [
     {
-       "registerLecturers": [
-          {
-             "lecId": "LEC01",
-             "lecName": "Nguyễn Văn A",
-             "lecRating": 2,
-             "lecStatus": "available",
-             "lecType": "Cơ hữu"
-          },
-          {
-             "lecId": "LEC03",
-             "lecName": "Nguyễn Văn C",
-             "lecRating": 4,
-             "lecStatus": "available",
-             "lecType": "Thỉnh giảng"
-          },
-          {
-             "lecId": "LEC04",
-             "lecName": "Nguyễn Văn D",
-             "lecRating": 5,
-             "lecStatus": "available",
-             "lecType": "Cơ hữu"
-          }
-       ],
-       "status": "Available",
-       "subjectCode": "Code02",
-       "subjectId": "SUB02",
-       "subjectName": "Kiến trúc phần mềm"
-    },
-    {
+      "status": "Available",
+      "subjectCode": "Code01",
+      "subjectId": "SUB01",
+      "subjectName": "Thiết kế dữ liệu",
+      
        "registerLecturers": [
           {
              "lecId": "LEC01",
@@ -44,12 +20,37 @@
              "lecStatus": "available",
              "lecType": "Cơ hữu"
           }
-       ],
-       "status": "Available",
-       "subjectCode": "Code01",
-       "subjectId": "SUB01",
-       "subjectName": "Thiết kế dữ liệu"
+       ]
     },
+    {
+      "status": "Available",
+      "subjectCode": "Code02",
+      "subjectId": "SUB02",
+      "subjectName": "Kiến trúc phần mềm",
+      "registerLecturers": [
+         {
+            "lecId": "LEC01",
+            "lecName": "Nguyễn Văn A",
+            "lecRating": 2,
+            "lecStatus": "available",
+            "lecType": "Cơ hữu"
+         },
+         {
+            "lecId": "LEC03",
+            "lecName": "Nguyễn Văn C",
+            "lecRating": 4,
+            "lecStatus": "available",
+            "lecType": "Thỉnh giảng"
+         },
+         {
+            "lecId": "LEC04",
+            "lecName": "Nguyễn Văn D",
+            "lecRating": 5,
+            "lecStatus": "available",
+            "lecType": "Cơ hữu"
+         }
+      ]  
+   },
     {
        "status": "Available",
        "subjectCode": "Code03",

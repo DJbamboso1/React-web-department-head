@@ -31,12 +31,12 @@ let SidebarData = [
         textClassName: 'menu-text'
     },
     {
-        title: 'Thông tin cá nhân',
-        path: '/profile',
-        icon: <MdIcons.MdSubject />,
-        className: 'menu-link',
-        iconClassName: 'menu-icon',
-        textClassName: 'menu-text'
+        // title: 'Thông tin cá nhân',
+        // path: '/profile',
+        // icon: <MdIcons.MdSubject />,
+        // className: 'menu-link',
+        // iconClassName: 'menu-icon',
+        // textClassName: 'menu-text'
     },
     
     

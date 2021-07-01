@@ -9,30 +9,14 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 
 
 const headCells = [
-  {
-      id: "blank",
-      numeric: false,
-      disablePadding: true,
-      label: ""
-  },
-  { id: "subjectCode", numeric: true, disablePadding: false, label: "Mã môn" },
-  { id: "subjectName", numeric: true, disablePadding: false, label: "Tên môn" },
-  {
-      id: "blank",
-      numeric: false,
-      disablePadding: true,
-      label: ""
-  },
-  {
-      id: "blank",
-      numeric: false,
-      disablePadding: true,
-      label: ""
-  },
+  
+  { id: "subjectCode", numeric: false, disablePadding: false, label: "Mã môn" },
+  { id: "subjectName", numeric: false, disablePadding: false, label: "Tên môn" },
+  
 ];
 
 const styles = {
-  rowHead: { fontSize: 20, fontWeight: 'bold', color: 'white' }
+  rowHead: { fontSize: 20, fontWeight: 'bold', color: 'white', width: 250 }
 }
 
 function EnhancedTableHead(props) {
@@ -49,6 +33,7 @@ function EnhancedTableHead(props) {
   return (
       <TableHead>
           <TableRow style={{ backgroundColor: '#3f51b5', }}>
+              <TableCell style={{width: 250}}/>
               {headCells.map((headCell) => (
                   <TableCell
                       style={styles.rowHead}

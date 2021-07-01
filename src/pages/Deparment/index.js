@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -13,6 +13,9 @@ import Subjects from './components/Subjects';
 import EnhancedTableHead from "./components/EnhancedTableHead";
 import CardContainer from "./components/CardContainer";
 import departmentService from "../../service/department";
+import { Context } from '../../App';
+import { Redirect } from "react-router";
+import teacherService from '../../service/teacher';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         width: "100%",
-        
     },
     table: {
         minWidth: 750
@@ -39,7 +41,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
 function EnhancedTable() {
+
+    let { auth } = useContext(Context);
     const classes = useStyles();
     const [order, setOrder] = React.useState("asc");
     const [orderBy, setOrderBy] = React.useState("calories");
@@ -51,7 +56,7 @@ function EnhancedTable() {
     useEffect(async () => {
         let data = await departmentService.get()
         setList(data)
-    },[])
+    }, [])
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
@@ -68,13 +73,13 @@ function EnhancedTable() {
         }
         return 0;
     }
-    
+
     function getComparator(order, orderBy) {
         return order === "desc"
             ? (a, b) => descendingComparator(a, b, orderBy)
             : (a, b) => -descendingComparator(a, b, orderBy);
     }
-    
+
     function stableSort(array, comparator) {
         const stabilizedThis = array.map((el, index) => [el, index]);
         stabilizedThis.sort((a, b) => {
@@ -85,7 +90,7 @@ function EnhancedTable() {
         return stabilizedThis.map((el) => el[0]);
     }
 
-    
+
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -96,16 +101,16 @@ function EnhancedTable() {
         setPage(0);
     };
 
-    
-
-
-
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, list.length - page * rowsPerPage);
+
+    if (!auth.login) return <Redirect to="/login" />
 
     return (
         <div className={classes.root}>
-            <CardContainer/>
+            <CardContainer />
+
             <Paper className={classes.paper}>
+
                 {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
                 <TableContainer>
                     <Table
@@ -119,7 +124,6 @@ function EnhancedTable() {
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
-                            // onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
                             rowCount={list.length}
                         />
