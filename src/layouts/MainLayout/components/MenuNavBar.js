@@ -5,7 +5,22 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
 import { Context } from '../../../App';
 import { Redirect } from 'react-router';
+import { makeStyles } from '@material-ui/styles';
 
+
+const useStyles = makeStyles((theme) => ({
+  flexGrow: {
+    flex: '1',
+  },
+  button: {
+    backgroundColor: '#3c52b2',
+    color: '#fff',
+    '&:hover': {
+      backgroundColor: '#fff',
+      color: '#3c52b2',
+    },
+  }
+}));
 
 function MenuNavBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -24,12 +39,16 @@ function MenuNavBar() {
   const handleLogout = () => {
     setAnchorEl(null);
     logoutHandle();
-
   };
 
+  const classes = useStyles();
+
+  let { auth } = useContext(Context);
+  if (!auth.login) return <Redirect to="/login" />
+  
   return (
     <>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} className={classes.button}>
         {
           user === null ? 'empty' : user.name
         }

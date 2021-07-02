@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Context } from '../../App';
 import { Redirect } from 'react-router-dom';
+import  ImageLogin  from '../../assets/css/images/bg.jpg' 
 
 function Copyright() {
   return (
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: "url(" + ImageLogin + ")",
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -82,7 +83,7 @@ export default function SignInSide() {
 
 
   if (auth.login) return <Redirect to="/" />
-  
+  // if (!auth.login) return <Redirect to="/login"/>
 
   return (
     <Grid container component="main" className={classes.root}>

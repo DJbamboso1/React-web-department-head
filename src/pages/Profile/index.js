@@ -5,46 +5,53 @@ import {
   Grid
 } from '@material-ui/core';
 import AccountProfile from './components/AccountProfile';
-import AccountProfileDetails from './components/AccountProfileDetail';
+
 import AccountProfileTab from './components/AccountProfileTab';
+import { Context } from '../../App';
+import { Redirect } from 'react-router';
+import { useContext } from 'react';
 
-const Account = () => (
-  <>
-    {/* <Helmet>
-      <title>Account | Material Kit</title>
-    </Helmet> */}
-    <Box
-      sx={{
-        backgroundColor: 'background.default',
-        minHeight: '100%',
-        py: 3
-      }}
-    >
-      <Container maxWidth="lg">
-        <Grid
-          container
-          spacing={3}
-        >
-          <Grid
-            item
-            lg={4}
-            md={6}
-            xs={12}
-          >
-            <AccountProfile />
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            md={6}
-            xs={12}
-          >
-            <AccountProfileTab/>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
-  </>
-);
 
-export default Account;
+import React from 'react'
+
+export default function Account() {
+
+  let { auth } = useContext(Context);
+  if (!auth.login) return <Redirect to="/login" />
+
+  return (
+    <div>
+      <Box
+        sx={{
+          backgroundColor: 'background.default',
+          minHeight: '100%',
+          py: 3
+        }}
+      >
+        <Container maxWidth="lg">
+          <Grid
+            container
+            spacing={3}
+          >
+            <Grid
+              item
+              lg={4}
+              md={6}
+              xs={12}
+            >
+              <AccountProfile />
+            </Grid>
+            <Grid
+              item
+              lg={8}
+              md={6}
+              xs={12}
+            >
+              <AccountProfileTab />
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+    </div>
+  )
+}

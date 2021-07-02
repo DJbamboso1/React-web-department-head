@@ -87,7 +87,7 @@ function App() {
           <Route path="/">
             <MainLayout>
               <Route path="/" exact component={Deparment} />
-              {/* <Route path='/profile' exact component={Profile} /> */}
+              <Route path='/profile' exact component={Profile} />
               <Route path='/teacher' exact component={Teacher} />
               <Route path='/subject' exact component={Subject} />
             </MainLayout>

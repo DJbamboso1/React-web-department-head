@@ -101,8 +101,8 @@ EnhancedTableHead.propTypes = {
 
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(1),
+        // paddingLeft: theme.spacing(2),
+        // paddingRight: theme.spacing(1),
     },
     highlight:
         theme.palette.type === 'light'
@@ -116,7 +116,11 @@ const useToolbarStyles = makeStyles((theme) => ({
             },
     title: {
         flex: '1 1 100%',
+        // background: 'rgb(63, 81, 181)',
     },
+    head: {
+        backgroundColor: 'rgb(63, 81, 181)',
+    }
 }));
 
 const EnhancedTableToolbar = (props) => {
@@ -134,7 +138,7 @@ const EnhancedTableToolbar = (props) => {
                     {numSelected} selected
                 </Typography>
             ) : (
-                <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+                <Typography className={classes.title} variant="h6" id="tableTitle" component="div" >
                     {title}
                 </Typography>
             )}
@@ -156,11 +160,13 @@ EnhancedTableToolbar.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '100%',
+        width: '90%',
+        display: 'flex',
+        justifyContent: 'center',
     },
     paper: {
         width: '100%',
-        marginBottom: theme.spacing(2),
+        
     },
     table: {
         minWidth: 750,
