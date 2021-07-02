@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import teacherService from '../../service/teacher';
 import TableComponent from '../../components/TableComponent'
-import { Context } from '../../App';
-import { Redirect } from 'react-router';
+import { generatePath, useHistory } from 'react-router-dom';
+
 
 const headCells = [
   { id: 'id', numeric: true, disablePadding: true, label: 'Code' },
@@ -17,17 +17,16 @@ const headCells = [
 
 export default function Teacher() {
 
-  const { auth } = useContext(Context);
-
-  
-
   let [list, setList] = useState([])
+  let history = useHistory()
 
   useEffect(async () => {
     setList(await teacherService.get())
   }, [])
 
-  if (!auth.login) return <Redirect to="/login" />
+  function _rowClickHandle(row){
+    history.push(generatePath('/teacher/:id', row))
+  }
 
-  return <TableComponent title="Giảng viên" header={headCells} data={list}/>;
+  return <TableComponent title="Giảng viên" rowClickHandle={_rowClickHandle} header={headCells} data={list.map(e => ({ ...e, status: e.status === 1 ? 'Đang dạy' : 'Đã nghĩ' }))} />;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -48,19 +48,30 @@ function stableSort(array, comparator) {
 
 
 function EnhancedTableHead(props) {
-    const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, header } = props;
+    const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, header, selectAllHandle } = props;
+    let [checked, setChecked] = useState(false)
+
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
+
+
+
+    function _checked(e) {
+        setChecked(e.target.checked)
+        selectAllHandle(e.target.checked)
+
+    }
     return (
         <TableHead>
             <TableRow>
                 <TableCell padding="checkbox">
                     <Checkbox
                         indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
+                        checked={checked}
                         onChange={onSelectAllClick}
                         inputProps={{ 'aria-label': 'select all desserts' }}
+                        onChange={_checked}
                     />
                 </TableCell>
                 {header.map((headCell) => (
@@ -125,7 +136,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
-    const { numSelected, title } = props;
+    const { numSelected, title, deleteHandle } = props;
 
     return (
         <Toolbar
@@ -145,7 +156,7 @@ const EnhancedTableToolbar = (props) => {
 
             {numSelected > 0 ? (
                 <Tooltip title="Delete">
-                    <IconButton aria-label="delete">
+                    <IconButton aria-label="delete" onClick={deleteHandle}>
                         <DeleteIcon />
                     </IconButton>
                 </Tooltip>
@@ -166,7 +177,7 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         width: '100%',
-        
+
     },
     table: {
         minWidth: 750,
@@ -186,7 +197,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function TableComponent({ header, data, title }) {
+function TableComponent({ header, data, title, filter = true, deleteHandle, rowClickHandle }, ref) {
 
     const classes = useStyles();
     const [order, setOrder] = useState('asc');
@@ -194,6 +205,7 @@ export default function TableComponent({ header, data, title }) {
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [selectAll, setSelectAll] = useState(false)
 
     //search
     const [searched, setSearched] = useState("");
@@ -202,7 +214,13 @@ export default function TableComponent({ header, data, title }) {
     useEffect(() => {
         setFilterData(data);
     }, [data])
-    
+
+    useImperativeHandle(ref, () => {
+        return {
+            selected
+        }
+    }, [selected])
+
     //////////////////////////////////////////
 
     console.log('data: ' + data);
@@ -269,7 +287,17 @@ export default function TableComponent({ header, data, title }) {
         setSearched("");
         requestSearch(searched);
     };
-//////////////////////////////////////////////////////
+
+    function selectAllHandle(flag) {
+        setSelectAll(flag)
+
+        if (flag) {
+            setSelected(filterData);
+        } else {
+            setSelected([]);
+        }
+    }
+    //////////////////////////////////////////////////////
 
 
     console.log(filterData);
@@ -282,14 +310,19 @@ export default function TableComponent({ header, data, title }) {
         <div className={classes.root}>
             <Paper className={classes.paper}>
 
-                <EnhancedTableToolbar title={title} numSelected={selected.length} />
+                <EnhancedTableToolbar deleteHandle={deleteHandle} title={title} numSelected={selected.length} />
+
                 <TableContainer>
                     {/* Search */}
-                    <SearchBar
-                        value={searched}
-                        onChange={(searchVal) => requestSearch(searchVal)}
-                        onCancelSearch={() => cancelSearch()}
-                    />
+
+                    {
+                        filter && <SearchBar
+                            value={searched}
+                            onChange={(searchVal) => requestSearch(searchVal)}
+                            onCancelSearch={() => cancelSearch()}
+                        />
+                    }
+
                     {/* //////////////////////////////////////// */}
                     <Table
                         className={classes.table}
@@ -299,6 +332,7 @@ export default function TableComponent({ header, data, title }) {
                     >
 
                         <EnhancedTableHead
+                            selectAllHandle={selectAllHandle}
                             classes={classes}
                             numSelected={selected.length}
                             order={order}
@@ -314,7 +348,7 @@ export default function TableComponent({ header, data, title }) {
                             {stableSort(filterData, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
-                                
+
                                     const isItemSelected = isSelected(row.id);
                                     console.log('row.name: ' + row.id)
                                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -322,7 +356,7 @@ export default function TableComponent({ header, data, title }) {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.id)}
+                                            onClick={(event) => rowClickHandle?.(row)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
@@ -331,30 +365,14 @@ export default function TableComponent({ header, data, title }) {
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
-                                                    checked={isItemSelected}
+                                                    checked={isItemSelected || selectAll}
                                                     inputProps={{ 'aria-labelledby': labelId }}
+                                                    onClick={(event) => handleClick(event, row.id)}
                                                 />
                                             </TableCell>
-                                            {title === 'Môn học' && <>
-                                                <TableCell align="right">{row.subjectName}</TableCell>
-                                                <TableCell align="right">{row.subjectCode}</TableCell>
-                                                <TableCell align="right">{row.status}</TableCell>
-                                            </>}
-                                            {title === 'Giảng viên' && <>
-                                                <TableCell align="right">{row.id}</TableCell>
-                                                <TableCell align="right">{row.name}</TableCell>
-                                                <TableCell align="right">{row.departmentId}</TableCell>
-                                                <TableCell align="right">{
-                                                    row.lectureType == 0 ? 'Cơ hữu' : 'Thỉnh giảng'
-                                                }</TableCell>
-                                                <TableCell align="right">{row.minCourse}</TableCell>
-                                                <TableCell align="right">{row.maxCourse}</TableCell>
-                                                <TableCell align="right">{
-                                                    row.status === 1 ? 'Đang dạy' : 'Đã nghĩ'
-                                                }</TableCell>
-                                            </>}
-
-
+                                            {
+                                                header.map(e => <TableCell key={row.id} align={e.numeric ? 'right' : 'left'}>{row[e.id]}</TableCell>)
+                                            }
                                         </TableRow>
                                     );
                                 })}
@@ -384,3 +402,6 @@ export default function TableComponent({ header, data, title }) {
         </div>
     );
 }
+
+
+export default React.forwardRef(TableComponent)

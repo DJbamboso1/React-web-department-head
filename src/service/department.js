@@ -3,14 +3,15 @@ const departmentService = {
         return fetch('/data/department.json')
         .then(res => res.json())
     },
-    getBySubjectId(props) {
+    async getBySubjectId(props) {
         const {subjectId} = props;
-        const tempData = fetch('/data/department.json')
+        const tempData = await fetch('/data/department.json')
         .then(res => res.json())
-        console.log(tempData);
         tempData.filter((data) => {
             return data.id === subjectId;
         })
+
+        return tempData
     },
     update() {
 

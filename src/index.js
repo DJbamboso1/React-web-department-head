@@ -9,7 +9,7 @@ import '../src/assets/css/app.min.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppTest />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
