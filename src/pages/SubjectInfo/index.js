@@ -23,7 +23,7 @@ import teacherService from '../../service/teacher';
 
 const headCells = [
     { id: 'id', numeric: true, disablePadding: true, label: 'Code' },
-    { id: 'name', numeric: true, disablePadding: false, label: 'Họ và tên' },
+    { id: 'name', numeric: false, disablePadding: false, label: 'Họ và tên' },
     { id: 'departmentId', numeric: true, disablePadding: false, label: 'Mã phòng ban' },
     { id: 'lectureType', numeric: true, disablePadding: false, label: 'Loại giảng viên' },
     { id: 'minCourse', numeric: true, disablePadding: false, label: 'Min' },
@@ -36,7 +36,7 @@ export default function SubjectInfo() {
     let teacherRef = useRef()
 
 
-    let [subject, setSubject] = useState({
+    const [subject, setSubject] = useState({
         teacher: []
     })
     let [teacher, setTeacher] = useState([])
@@ -48,19 +48,22 @@ export default function SubjectInfo() {
     }, [id])
 
     const handleChange = (event) => {
-        // setValue({
-        //     ...value,
-        //     [event.target.name]: event.target.value
-        // });
+        setSubject({
+            ...subject,
+            [event.target.name]: event.target.value
+        });
     };
 
+    const handleSubmit = (event) => {
+        alert(subject.subjectName);
+    }
 
     function _addTeacher(e) {
         let { value } = e
 
         let f = teacher.find(e1 => e1.id === value)
         if (f) {
-
+ 
             let { teacher } = subject
             teacher.push(f)
             setSubject({
@@ -95,12 +98,18 @@ export default function SubjectInfo() {
         })
     }
 
+    function _deleteSubject(e) {
+        
+    }
+
     return (
         <Container>
             <form
                 autoComplete="off"
                 noValidate
+                
             >
+                <CardHeader/>
                 <Card style={{ overflow: 'inherit' }}>
                     <CardHeader
                         title="Quản lý môn học"
@@ -109,25 +118,33 @@ export default function SubjectInfo() {
                     <CardContent>
                         <Grid container spacing={3}>
                             <Grid item md={6} xs={12}>
+                                <Typography variant="h6">
+                                    Tên môn
+                                </Typography>
                                 <TextField
                                     fullWidth
                                     // helperText="Please specify the first name"
-                                    label="Tên môn"
+                                    // label="Tên môn"
                                     name="subjectName"
                                     onChange={handleChange}
                                     required
                                     value={subject.subjectName}
+                                    // {subject.subjectName}
                                     variant="outlined"
                                 />
                             </Grid>
                             <Grid item md={6} xs={12}>
+                            <Typography variant="h6">
+                                    Mã môn
+                                </Typography>
                                 <TextField
                                     fullWidth
-                                    label="Mã môn"
+                                    // label="Mã môn"
                                     name="subjectCode"
                                     onChange={handleChange}
                                     required
                                     value={subject.subjectCode}
+                                    // {subject.subjectCode}
                                     variant="outlined"
                                 />
                             </Grid>
@@ -145,6 +162,7 @@ export default function SubjectInfo() {
                             color="primary"
                             variant="contained"
                             style={{ margin: 10 }}
+                            onClick={handleSubmit}
                         >
                             Cập nhật
                         </Button>

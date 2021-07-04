@@ -11,6 +11,7 @@ import authService from './service/auth';
 import Teacher from './pages/Teacher';
 import Subject from './pages/Subject';
 import SubjectInfo from './pages/SubjectInfo';
+import LecturerInfo from './pages/LecturerInfo';
 // import { response } from 'express';
 // import axios from 'axios';
 
@@ -92,6 +93,7 @@ function App() {
               <Route path='/teacher' exact component={Teacher} />
               <Route path='/subject' exact component={Subject} />
               <Route path='/subject/:id' exact component={SubjectInfo} />
+              <Route path='/teacher/:id' exact component={LecturerInfo} />
             </MainLayout>
           </Route>
         </Switch>

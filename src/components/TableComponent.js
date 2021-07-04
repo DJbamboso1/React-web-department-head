@@ -18,6 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SearchBar from 'material-ui-search-bar';
+import { Button, Modal } from '@material-ui/core';
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -68,9 +69,9 @@ function EnhancedTableHead(props) {
                 <TableCell padding="checkbox">
                     <Checkbox
                         indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={checked}
+                        checked={rowCount > 0 && numSelected === rowCount}
                         onChange={onSelectAllClick}
-                        inputProps={{ 'aria-label': 'select all desserts' }}
+                        inputProps={{ 'aria-label': 'select all' }}
                         onChange={_checked}
                     />
                 </TableCell>
@@ -193,6 +194,14 @@ const useStyles = makeStyles((theme) => ({
         top: 20,
         width: 1,
     },
+    paperModal: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+      },
 }));
 
 
@@ -206,7 +215,7 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [selectAll, setSelectAll] = useState(false)
-
+    const [open, setOpen] = React.useState(false);
     //search
     const [searched, setSearched] = useState("");
     const [filterData, setFilterData] = useState(data);
@@ -273,8 +282,10 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
     const requestSearch = (searchedVal) => {
         const filteredRows = data.filter((row) => {
             if (title === 'Môn học') {
+                selectAllHandle(null);
                 return row.subjectName.toLowerCase().includes(searchedVal.toLowerCase());
             } else if (title === 'Giảng viên') {
+                selectAllHandle(null);
                 return row.name.toLowerCase().includes(searchedVal.toLowerCase());
             }
             return null;
@@ -299,19 +310,26 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
     }
     //////////////////////////////////////////////////////
 
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     console.log(filterData);
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, filterData.length - page * rowsPerPage);
+    console.log("filterData.length: " + filterData.length)
+
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-
                 <EnhancedTableToolbar deleteHandle={deleteHandle} title={title} numSelected={selected.length} />
-
                 <TableContainer>
                     {/* Search */}
 
@@ -324,10 +342,24 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
                     }
 
                     {/* //////////////////////////////////////// */}
+                    {/* Button modal */}
+                    <Button variant="contained" color="primary" type="button" onClick={handleOpen}>
+                        {'Thêm ' + title.toLowerCase()}
+                    </Button>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                    >
+                        <div  className={classes.paperModal} style={{top: '40%', left: '40%' ,transform: `translate(-50%, - 50%`}}>
+                           
+                        </div>
+                    </Modal>
+                    {/* //////////////////////////////////////// */}
                     <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
-
                         aria-label="enhanced table"
                     >
 
@@ -343,7 +375,6 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
                             // rowCount={data.length}
                             header={header}
                         />
-
                         <TableBody>
                             {stableSort(filterData, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -356,7 +387,6 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => rowClickHandle?.(row)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
@@ -371,7 +401,7 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
                                                 />
                                             </TableCell>
                                             {
-                                                header.map(e => <TableCell key={row.id} align={e.numeric ? 'right' : 'left'}>{row[e.id]}</TableCell>)
+                                                header.map(e => <TableCell key={row.id} align={e.numeric ? 'right' : 'left'} onClick={(event) => rowClickHandle?.(row)}>{row[e.id]}</TableCell>)
                                             }
                                         </TableRow>
                                     );

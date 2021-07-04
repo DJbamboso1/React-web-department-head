@@ -1,6 +1,9 @@
-import React from 'react'
-import { Container, TextField, useState } from '@material-ui/core'
-import { Typography } from '@material-ui/core'
+import React, { useRef, useState } from 'react'
+import { useEffect } from 'react'
+import { useRouteMatch } from 'react-router-dom'
+import subjectService from '../../service/subject'
+
+import { Container, Typography } from '@material-ui/core';
 import {
     Box,
     Button,
@@ -8,119 +11,128 @@ import {
     CardContent,
     CardHeader,
     Divider,
-    Grid
+    Grid,
+    TextField
 } from '@material-ui/core';
 import Select from 'react-select';
+import TableComponent from '../../components/TableComponent';
+import departmentService from '../../service/department';
+import teacherService from '../../service/teacher';
 
-const states = [
-    {
-      value: 'alabama',
-      label: 'Alabama'
-    },
-    {
-      value: 'new-york',
-      label: 'New York'
-    },
-    {
-      value: 'san-francisco',
-      label: 'San Francisco'
-    }
-  ];
 
-function LecturerInfo() {
-    const [values, setValues] = useState({
-        firstName: 'Katarina',
-        lastName: 'Smith',
-        email: 'demo@devias.io',
-        phone: '',
-        state: 'Alabama',
-        country: 'USA'
-    });
+
+const headCells = [
+    { id: 'id', numeric: true, disablePadding: true, label: 'Code' },
+    { id: 'name', numeric: false, disablePadding: false, label: 'Họ và tên' },
+    { id: 'departmentId', numeric: true, disablePadding: false, label: 'Mã phòng ban' },
+    { id: 'lectureType', numeric: true, disablePadding: false, label: 'Loại giảng viên' },
+    { id: 'minCourse', numeric: true, disablePadding: false, label: 'Min' },
+    { id: 'maxCourse', numeric: true, disablePadding: false, label: 'Max' },
+    { id: 'status', numeric: true, disablePadding: false, label: 'Trạng thái' },
+];
+
+export default function LecturerInfo() {
+
+    // let teacherRef = useRef()
+
+
+    
+    let [teacher, setTeacher] = useState([])
+    let { params: { id } } = useRouteMatch()
+
+    useEffect(async () => {
+        setTeacher(await teacherService.getOne(id))
+    }, [id])
+
+    console.log("id: " + id);
+
+    console.log("setTeacher: " + teacher.name);
+
+    console.log("teacherServices: " + teacherService.getOne(1))
 
     const handleChange = (event) => {
-        setValues({
-            ...values,
+        setTeacher({
+            ...teacher,
             [event.target.name]: event.target.value
         });
     };
 
+    const handleSubmit = (event) => {
+        alert(teacher.name);
+    }
+
+    
+
+
     return (
-        <form
-            autoComplete="off"
-            noValidate
-
-        >
-            <Card style={{ overflow: 'inherit' }}>
-                <CardHeader
-                    subheader="The information can be edited"
-                    title={"ABC: " + "xyz"}
-                />
-                <Divider />
-                <CardContent>
-                    <Grid container spacing={3}>
-                        <Grid item md={6} xs={12}>
-                            <TextField
-                                fullWidth
-                                // helperText="Please specify the first name"
-                                label="Tên môn"
-                                name="firstName"
-                                onChange={handleChange}
-                                required
-                                value={values.firstName}
-                                variant="outlined"
-                            />
+        <Container>
+            <form
+                autoComplete="off"
+                noValidate
+                
+            >
+                <CardHeader/>
+                <Card style={{ overflow: 'inherit' }}>
+                    <CardHeader
+                        title="Quản lý giảng viên"
+                    />
+                    <Divider />
+                    <CardContent>
+                        <Grid container spacing={3}>
+                            <Grid item md={6} xs={12}>
+                                <Typography variant="h6">
+                                    Tên giảng viên
+                                </Typography>
+                                <TextField
+                                    fullWidth
+                                    // helperText="Please specify the first name"
+                                    // label="Tên môn"
+                                    name="name"
+                                    onChange={handleChange}
+                                    required
+                                    value={teacher.name}
+                                    
+                                    // {subject.subjectName}
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            {/* <Grid item md={6} xs={12}>
+                            <Typography variant="h6">
+                                    Mã môn
+                                </Typography>
+                                <TextField
+                                    fullWidth
+                                    // label="Mã môn"
+                                    name="code"
+                                    onChange={handleChange}
+                                    required
+                                    value={teacher.code}
+                                    // {subject.subjectCode}
+                                    variant="outlined"
+                                />
+                            </Grid> */}
                         </Grid>
-                        <Grid item md={6} xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Mã môn"
-                                name="lastName"
-                                onChange={handleChange}
-                                required
-                                value={values.lastName}
-                                variant="outlined"
-                            />
-                        </Grid>
-                        <Grid item md={6} xs={12}>
-                            <TextField
-                                fullWidth
-                                label="Select State"
-                                name="state"
-                                onChange={handleChange}
-                                required
-                                select
-                                SelectProps={{ native: true }}
-                                value={values.state}
-                                variant="outlined"
-                            >
-                            </TextField>
-
-                        </Grid>
-                    </Grid>
-                </CardContent>
-                <Divider />
-                <Box
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        p: 2
-                    }}
-                >
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        style={{ margin: 10 }}
+                    </CardContent>
+                    <Divider />
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            p: 2
+                        }}
                     >
-                        Save details
-                    </Button>
-                </Box>
-                <Divider />
-
-
-            </Card>
-
-        </form>
-    );
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            style={{ margin: 10 }}
+                            onClick={handleSubmit}
+                        >
+                            Cập nhật
+                        </Button>
+                    </Box>
+                    <Divider />
+                </Card>
+            </form>
+        </Container>
+    )
 }
-
-export default LecturerInfo
