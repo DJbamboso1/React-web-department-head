@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import AppTest from './AppTest';
+// import AppTest from './AppTest';
 import '../src/assets/css/app.min.css';
 // import '../src/assets/css/vendor.min.css';
 // import '../src/assets/js/app.min.js';

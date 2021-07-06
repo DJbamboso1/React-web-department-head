@@ -1,60 +1,60 @@
-import React, { useEffect, useImperativeHandle, useState } from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
-import SearchBar from 'material-ui-search-bar';
-import { Button, Modal } from '@material-ui/core';
+import React, { useEffect, useImperativeHandle, useState } from 'react'
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
+import { lighten, makeStyles } from '@material-ui/core/styles'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TablePagination from '@material-ui/core/TablePagination'
+import TableRow from '@material-ui/core/TableRow'
+import TableSortLabel from '@material-ui/core/TableSortLabel'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import Paper from '@material-ui/core/Paper'
+import Checkbox from '@material-ui/core/Checkbox'
+import IconButton from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
+import DeleteIcon from '@material-ui/icons/Delete'
+import SearchBar from 'material-ui-search-bar'
+import { Button, Modal } from '@material-ui/core'
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
-        return -1;
+        return -1
     }
     if (b[orderBy] > a[orderBy]) {
-        return 1;
+        return 1
     }
-    return 0;
+    return 0
 }
 
 function getComparator(order, orderBy) {
     return order === 'desc'
         ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
+        : (a, b) => -descendingComparator(a, b, orderBy)
 }
 
 function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
+    const stabilizedThis = array.map((el, index) => [el, index])
     stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) return order;
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
+        const order = comparator(a[0], b[0])
+        if (order !== 0) return order
+        return a[1] - b[1]
+    })
+    return stabilizedThis.map((el) => el[0])
 }
 
 
 
 function EnhancedTableHead(props) {
-    const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, header, selectAllHandle } = props;
+    const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, header, selectAllHandle } = props
     let [checked, setChecked] = useState(false)
 
     const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
+        onRequestSort(event, property)
+    }
 
 
 
@@ -98,7 +98,7 @@ function EnhancedTableHead(props) {
                 ))}
             </TableRow>
         </TableHead>
-    );
+    )
 }
 
 EnhancedTableHead.propTypes = {
@@ -109,7 +109,7 @@ EnhancedTableHead.propTypes = {
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
-};
+}
 
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
@@ -133,11 +133,11 @@ const useToolbarStyles = makeStyles((theme) => ({
     head: {
         backgroundColor: 'rgb(63, 81, 181)',
     }
-}));
+}))
 
 const EnhancedTableToolbar = (props) => {
-    const classes = useToolbarStyles();
-    const { numSelected, title, deleteHandle } = props;
+    const classes = useToolbarStyles()
+    const { numSelected, title, deleteHandle } = props
 
     return (
         <Toolbar
@@ -163,16 +163,16 @@ const EnhancedTableToolbar = (props) => {
                 </Tooltip>
             ) : null}
         </Toolbar>
-    );
-};
+    )
+}
 
 EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
-};
+}
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '90%',
+        // width: '90%',
         display: 'flex',
         justifyContent: 'center',
     },
@@ -201,27 +201,27 @@ const useStyles = makeStyles((theme) => ({
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-      },
-}));
+    },
+}))
 
 
 
 function TableComponent({ header, data, title, filter = true, deleteHandle, rowClickHandle }, ref) {
 
-    const classes = useStyles();
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('calories');
-    const [selected, setSelected] = useState([]);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const classes = useStyles()
+    const [order, setOrder] = useState('asc')
+    const [orderBy, setOrderBy] = useState('calories')
+    const [selected, setSelected] = useState([])
+    const [page, setPage] = useState(0)
+    const [rowsPerPage, setRowsPerPage] = useState(5)
     const [selectAll, setSelectAll] = useState(false)
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false)
     //search
-    const [searched, setSearched] = useState("");
-    const [filterData, setFilterData] = useState(data);
+    const [searched, setSearched] = useState("")
+    const [filterData, setFilterData] = useState(data)
 
     useEffect(() => {
-        setFilterData(data);
+        setFilterData(data)
     }, [data])
 
     useImperativeHandle(ref, () => {
@@ -232,98 +232,97 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
 
     //////////////////////////////////////////
 
-    console.log('data: ' + data);
-    console.log('filterData: ' + filterData);
+    console.log('data: ' + data)
+    console.log('filterData: ' + filterData)
     const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-    };
+        const isAsc = orderBy === property && order === 'asc'
+        setOrder(isAsc ? 'desc' : 'asc')
+        setOrderBy(property)
+    }
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = filterData.map((n) => n.name);
-            setSelected(newSelecteds);
-            return;
+            const newSelecteds = filterData.map((n) => n.name)
+            setSelected(newSelecteds)
+            return
         }
-        setSelected([]);
-    };
+        setSelected([])
+    }
 
     const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected = [];
+        const selectedIndex = selected.indexOf(name)
+        let newSelected = []
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
+            newSelected = newSelected.concat(selected, name)
         } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
+            newSelected = newSelected.concat(selected.slice(1))
         } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
+            newSelected = newSelected.concat(selected.slice(0, -1))
         } else if (selectedIndex > 0) {
             newSelected = newSelected.concat(
                 selected.slice(0, selectedIndex),
                 selected.slice(selectedIndex + 1),
-            );
+            )
         }
 
-        setSelected(newSelected);
-    };
+        setSelected(newSelected)
+    }
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+        setPage(newPage)
+    }
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
+        setRowsPerPage(parseInt(event.target.value, 10))
+        setPage(0)
+    }
 
     //search
     const requestSearch = (searchedVal) => {
         const filteredRows = data.filter((row) => {
             if (title === 'Môn học') {
-                selectAllHandle(null);
-                return row.subjectName.toLowerCase().includes(searchedVal.toLowerCase());
+                selectAllHandle(null)
+                return row.subjectName.toLowerCase().includes(searchedVal.toLowerCase())
             } else if (title === 'Giảng viên') {
-                selectAllHandle(null);
-                return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+                selectAllHandle(null)
+                return row.name.toLowerCase().includes(searchedVal.toLowerCase())
             }
-            return null;
-        });
+            return null
+        })
         console.log("filteredRow: " + filteredRows)
-        setFilterData(filteredRows);
-    };
+        setFilterData(filteredRows)
+    }
 
     const cancelSearch = () => {
-        setSearched("");
-        requestSearch(searched);
-    };
+        setSearched("")
+        requestSearch(searched)
+    }
 
     function selectAllHandle(flag) {
         setSelectAll(flag)
 
         if (flag) {
-            setSelected(filterData);
+            setSelected(filterData)
         } else {
-            setSelected([]);
+            setSelected([])
         }
     }
     //////////////////////////////////////////////////////
 
     const handleOpen = () => {
-        setOpen(true);
-    };
+        setOpen(true)
+    }
 
     const handleClose = () => {
-        setOpen(false);
-    };
+        setOpen(false)
+    }
 
-    console.log(filterData);
 
-    const isSelected = (name) => selected.indexOf(name) !== -1;
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, filterData.length - page * rowsPerPage);
-    console.log("filterData.length: " + filterData.length)
+    const isSelected = (name) => selected.indexOf(name) !== -1
+
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, filterData.length - page * rowsPerPage)
 
 
     return (
@@ -331,32 +330,29 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
             <Paper className={classes.paper}>
                 <EnhancedTableToolbar deleteHandle={deleteHandle} title={title} numSelected={selected.length} />
                 <TableContainer>
-                    {/* Search */}
-
                     {
-                        filter && <SearchBar
-                            value={searched}
-                            onChange={(searchVal) => requestSearch(searchVal)}
-                            onCancelSearch={() => cancelSearch()}
-                        />
+                        filter && <>
+                            <SearchBar
+                                value={searched}
+                                onChange={(searchVal) => requestSearch(searchVal)}
+                                onCancelSearch={() => cancelSearch()}
+                            />
+                            <Button variant="contained" color="primary" type="button" onClick={handleOpen}>
+                                {'Thêm ' + title.toLowerCase()}
+                            </Button>
+                            <Modal
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="simple-modal-title"
+                                aria-describedby="simple-modal-description"
+                            >
+                                <div className={classes.paperModal} style={{ top: '40%', left: '40%', transform: `translate(-50%, - 50%` }}>
+
+                                </div>
+                            </Modal>
+                        </>
                     }
 
-                    {/* //////////////////////////////////////// */}
-                    {/* Button modal */}
-                    <Button variant="contained" color="primary" type="button" onClick={handleOpen}>
-                        {'Thêm ' + title.toLowerCase()}
-                    </Button>
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="simple-modal-title"
-                        aria-describedby="simple-modal-description"
-                    >
-                        <div  className={classes.paperModal} style={{top: '40%', left: '40%' ,transform: `translate(-50%, - 50%`}}>
-                           
-                        </div>
-                    </Modal>
-                    {/* //////////////////////////////////////// */}
                     <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
@@ -380,9 +376,9 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
 
-                                    const isItemSelected = isSelected(row.id);
+                                    const isItemSelected = isSelected(row.id)
                                     console.log('row.name: ' + row.id)
-                                    const labelId = `enhanced-table-checkbox-${index}`;
+                                    const labelId = `enhanced-table-checkbox-${index}`
 
                                     return (
                                         <TableRow
@@ -404,7 +400,7 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
                                                 header.map(e => <TableCell key={row.id} align={e.numeric ? 'right' : 'left'} onClick={(event) => rowClickHandle?.(row)}>{row[e.id]}</TableCell>)
                                             }
                                         </TableRow>
-                                    );
+                                    )
                                 })}
                             {emptyRows > 0 && (
                                 <TableRow style={{ height: 53 * emptyRows }}>
@@ -425,12 +421,9 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
             </Paper>
-            {/* <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      /> */}
+            
         </div>
-    );
+    )
 }
 
 

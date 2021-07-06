@@ -98,10 +98,6 @@ export default function SubjectInfo() {
         })
     }
 
-    function _deleteSubject(e) {
-        
-    }
-
     return (
         <Container>
             <form
@@ -173,7 +169,7 @@ export default function SubjectInfo() {
                 </Card>
                 <Grid item md={12} xs={12} style={{ margin: 10 }}>
                     <Typography variant='h5' style={{marginTop: 30, marginBottom: 10}}>
-                        Giảng viên giảng dạy
+                        Chọn giảng viên để thêm:
                     </Typography>
                     <Select
                         // defaultValue={[colourOptions[2], colourOptions[3]]}
@@ -189,10 +185,10 @@ export default function SubjectInfo() {
                         onChange={_addTeacher}
                     />
 
-                    <Card>
+                    <Card style={{marginTop: 10}}>
                         {/* <CardHeader title='Lecturer' /> */}
                         <CardContent>
-                            <TableComponent ref={teacherRef} deleteHandle={_deleteTeacher} filter={false} title="Giảng viên" header={headCells} data={subject.teacher} />;
+                            <TableComponent ref={teacherRef} deleteHandle={_deleteTeacher} filter={false} title="Giảng viên" header={headCells} data={subject.teacher} />
                         </CardContent>
                     </Card>
                 </Grid>
