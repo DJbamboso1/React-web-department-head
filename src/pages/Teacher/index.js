@@ -28,5 +28,7 @@ export default function Teacher() {
     history.push(generatePath('/teacher/:id', row))
   }
 
-  return <TableComponent title="Giảng viên" rowClickHandle={_rowClickHandle} header={headCells} data={list.map(e => ({ ...e, status: e.status === 1 ? 'Đang dạy' : 'Đã nghĩ' }))} />;
+  return <TableComponent title="Giảng viên" rowClickHandle={_rowClickHandle} header={headCells} data={list.map(e => ({ ...e, status: e.status === 1 ? 'Đang dạy' : 'Đã nghĩ' }))}>
+    Teacher
+  </TableComponent>;
 }

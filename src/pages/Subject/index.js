@@ -29,5 +29,7 @@ export default function Subject() {
   }
 
   if (!auth.login) return <Redirect to="/login" />
-  return <TableComponent title="Môn học" header={headCells} rowClickHandle={_rowClickHandle} data={list.map(e => ({ ...e, status: e.status === 1 ? 'Còn dạy' : 'Đã xóa' }))} />;
+  return <TableComponent title="Môn học" header={headCells} rowClickHandle={_rowClickHandle} data={list.map(e => ({ ...e, status: e.status === 1 ? 'Còn dạy' : 'Đã xóa' }))}>
+    Subject
+  </TableComponent>;
 }

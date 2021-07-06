@@ -206,7 +206,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-function TableComponent({ header, data, title, filter = true, deleteHandle, rowClickHandle }, ref) {
+function TableComponent({ header, data, title, filter = true, deleteHandle, rowClickHandle, children }, ref) {
 
     const classes = useStyles()
     const [order, setOrder] = useState('asc')
@@ -232,8 +232,6 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
 
     //////////////////////////////////////////
 
-    console.log('data: ' + data)
-    console.log('filterData: ' + filterData)
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc'
         setOrder(isAsc ? 'desc' : 'asc')
@@ -249,24 +247,39 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
         setSelected([])
     }
 
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name)
-        let newSelected = []
+    const handleClick = (event, obj) => {
 
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name)
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1))
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1))
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            )
+        
+
+        const selectedIndex = selected.findIndex(e => e.id === obj.id)
+
+        let arr = selected.slice()
+
+        if(selectedIndex === -1){
+            arr.push(obj)
+        }else{
+            arr.splice(selectedIndex, 1)
+            if(selectAll){
+                setSelectAll(false)
+            }
         }
 
-        setSelected(newSelected)
+
+        // if (selectedIndex === -1) {
+        //     newSelected = newSelected.concat(selected, obj)
+        // } else if (selectedIndex === 0) {
+        //     newSelected = newSelected.concat(selected.slice(1))
+        // } else if (selectedIndex === selected.length - 1) {
+        //     newSelected = newSelected.concat(selected.slice(0, -1))
+        // } else if (selectedIndex > 0) {
+        //     newSelected = newSelected.concat(
+        //         selected.slice(0, selectedIndex),
+        //         selected.slice(selectedIndex + 1),
+        //     )
+        // }
+
+        // console.log(selected)
+        setSelected(arr)
     }
 
     const handleChangePage = (event, newPage) => {
@@ -320,7 +333,7 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
 
 
 
-    const isSelected = (name) => selected.indexOf(name) !== -1
+    const isSelected = (name) => selected.findIndex(e => e.id === name) !== -1
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, filterData.length - page * rowsPerPage)
 
@@ -347,7 +360,7 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
                                 aria-describedby="simple-modal-description"
                             >
                                 <div className={classes.paperModal} style={{ top: '40%', left: '40%', transform: `translate(-50%, - 50%` }}>
-
+                                    {children}
                                 </div>
                             </Modal>
                         </>
@@ -377,7 +390,6 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
                                 .map((row, index) => {
 
                                     const isItemSelected = isSelected(row.id)
-                                    console.log('row.name: ' + row.id)
                                     const labelId = `enhanced-table-checkbox-${index}`
 
                                     return (
@@ -393,7 +405,7 @@ function TableComponent({ header, data, title, filter = true, deleteHandle, rowC
                                                 <Checkbox
                                                     checked={isItemSelected || selectAll}
                                                     inputProps={{ 'aria-labelledby': labelId }}
-                                                    onClick={(event) => handleClick(event, row.id)}
+                                                    onClick={(event) => handleClick(event, row)}
                                                 />
                                             </TableCell>
                                             {
